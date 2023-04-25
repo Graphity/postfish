@@ -29,13 +29,14 @@ public class PostServlet extends HttpServlet {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM posts");
             while (rs.next()) {
-                Post post = new Post();
-                post.setId(rs.getInt("id"));
-                post.setTitle(rs.getString("title"));
-                post.setAuthor(rs.getString("author"));
-                post.setContent(rs.getString("content"));
-                post.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
-                post.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+                Post post = new Post(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("content"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
+                );
                 posts.add(post);
             }
             stmt.close();
@@ -45,7 +46,7 @@ public class PostServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        
+
         request.setAttribute("posts", posts);
         request.getRequestDispatcher("/WEB-INF/views/posts.jsp").forward(request, response);
     }
