@@ -24,6 +24,7 @@ public class PostServlet extends HttpServlet {
         List<Post> posts = new ArrayList<>();
 
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM posts");
@@ -41,7 +42,10 @@ public class PostServlet extends HttpServlet {
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+        
         request.setAttribute("posts", posts);
         request.getRequestDispatcher("/WEB-INF/views/posts.jsp").forward(request, response);
     }
