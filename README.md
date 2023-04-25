@@ -11,3 +11,10 @@ CREATE TABLE posts (
    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 ```
+
+## Example .env
+```
+DB_URL=mysql://host/database
+DB_USER=user
+DB_PASS=pass
+```
